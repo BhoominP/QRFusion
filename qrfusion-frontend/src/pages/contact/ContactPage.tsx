@@ -280,7 +280,7 @@ export function ContactPage() {
               <ul className="space-y-3.5 text-sm">
                 <li>
                   <a
-                    href="mailto:bhoomin.patel@qrfusion.io"
+                    href="mailto:patelbhoomin345@gmail.com"
                     className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
                   >
                     <div className="w-9 h-9 rounded-xl border border-white/10 bg-[#0A1420] flex items-center justify-center text-[#4A9AFA] group-hover:border-[#4A9AFA]/40 transition-colors">
@@ -288,7 +288,7 @@ export function ContactPage() {
                     </div>
                     <div>
                       <p className="text-xs text-[#64748B]">Email Support</p>
-                      <p className="font-medium text-xs sm:text-sm truncate">bhoomin.patel@qrfusion.io</p>
+                      <p className="font-medium text-xs sm:text-sm truncate">patelbhoomin345@gmail.com</p>
                     </div>
                   </a>
                 </li>
@@ -300,14 +300,14 @@ export function ContactPage() {
                     </div>
                     <div>
                       <p className="text-xs text-[#64748B]">Location</p>
-                      <p className="font-medium text-xs sm:text-sm">Computer Science & Eng. Department</p>
+                      <p className="font-medium text-xs sm:text-sm">Running on Coffee &amp; Java ☕</p>
                     </div>
                   </div>
                 </li>
 
                 <li>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/BhoominP/QRFusion"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
@@ -317,14 +317,14 @@ export function ContactPage() {
                     </div>
                     <div>
                       <p className="text-xs text-[#64748B]">GitHub Repository</p>
-                      <p className="font-medium text-xs sm:text-sm">github.com/qrfusion</p>
+                      <p className="font-medium text-xs sm:text-sm">github.com/BhoominP/QRFusion</p>
                     </div>
                   </a>
                 </li>
 
                 <li>
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/bhoomin-patel/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
@@ -334,7 +334,7 @@ export function ContactPage() {
                     </div>
                     <div>
                       <p className="text-xs text-[#64748B]">LinkedIn</p>
-                      <p className="font-medium text-xs sm:text-sm">linkedin.com/in/bhoomin</p>
+                      <p className="font-medium text-xs sm:text-sm">linkedin.com/in/bhoomin-patel</p>
                     </div>
                   </a>
                 </li>
