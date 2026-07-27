@@ -14,7 +14,7 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-  [![License](https://img.shields.io/badge/License-MIT-emerald.svg?style=for-the-badge)](LICENSE)
+  [![License](https://img.shields.io/badge/License-Source--Available-3178C6.svg?style=for-the-badge)](LICENSE)
 
   <br />
 
@@ -300,7 +300,13 @@ Contributions are welcome! Please follow these simple steps:
 
 ## 📜 License
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+QRFusion is source-available software.
+
+You may use, study, fork, and modify this project for personal, educational, and non-commercial purposes.
+
+Commercial use, resale, SaaS offerings, and redistribution for profit are prohibited without written permission from Bhoomin Patel.
+
+See the [LICENSE](LICENSE) file for complete terms.
 
 ---
 
@@ -309,7 +315,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 <div align="center">
 
   ### **Bhoomin Patel**
-  *Final-Year Computer Science & Engineering Student | Java Backend & Full-Stack Engineer*
+  *Computer Science Engineering Student | Full Stack Developer | Java & Spring Boot Developer | AI Enthusiast | Open Source Learner*
 
   <br />
 
