@@ -1,0 +1,35 @@
+import React from 'react';
+
+export function QrFusionLogoIcon({ className = 'h-8 w-8' }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 887.77 792"
+      className={`shrink-0 ${className}`}
+      aria-hidden="true"
+    >
+      <defs>
+        <style>{`
+          .qrf-icon-cls-1 { fill: #f8b444; }
+          .qrf-icon-cls-2 { fill: none; }
+          .qrf-icon-cls-3 { fill: #035081; }
+          .qrf-icon-cls-4 { fill: #034f81; }
+        `}</style>
+      </defs>
+      <path className="qrf-icon-cls-4" d="M742.09,298.08v396.92h-381.98v33.54h419.77v-430.46h-37.78ZM547.4,63.46H107.9v428.21h38.52V99.33h400.99v-35.86Z"/>
+      <polygon className="qrf-icon-cls-2" points="779.87 63.46 779.87 298.08 742.09 298.08 742.09 99.33 547.4 99.33 547.4 63.46 779.87 63.46"/>
+      <g>
+        <path className="qrf-icon-cls-4" d="M574.09,63.46v206.23h204.11V63.46h-204.11ZM742.09,234.62h-131.42V99.33h131.42v135.29Z"/>
+        <rect className="qrf-icon-cls-4" x="639.8" y="129.87" width="73.56" height="74.64"/>
+      </g>
+      <g>
+        <path className="qrf-icon-cls-4" d="M107.9,516.02v212.51h214.95v-212.51H107.9ZM284.82,692.38h-138.4v-139.41h138.4v139.41Z"/>
+        <rect className="qrf-icon-cls-4" x="177.1" y="584.45" width="77.47" height="76.91"/>
+      </g>
+      <path className="qrf-icon-cls-4" d="M650.67,298.08v298.56h-290.57v36.34h324.87v-334.9h-34.3ZM547.4,136.43H184.32v355.24h37V173.33h326.08v-36.9Z"/>
+      <path className="qrf-icon-cls-4" d="M556.88,360.15v152.48h-149.8v36.67h185.61v-189.15h-35.81ZM481.09,242.58h-185.86v204.77h37.1v-168.3h148.76v-36.47Z"/>
+      <path className="qrf-icon-cls-1" d="M469.44,424.23c-8.52-8.17-17.04-16.35-25.56-24.52-7.93-8.71-15.87-17.42-23.8-26.13,26.84-10.2,53.68-20.39,80.52-30.59-10.38,27.08-20.77,54.16-31.15,81.24Z"/>
+      <path className="qrf-icon-cls-3" d="M398.74,354.72c-25.3,53.76-50.6,107.54-75.9,161.3,54.36-24.16,108.7-48.35,163.04-72.53,29.42-57.93,58.81-115.85,88.2-173.78-58.46,28.33-116.89,56.69-175.35,85.02ZM462.76,417.55c-23.33,10.39-46.65,20.77-69.96,31.14,10.84-23.07,21.71-46.15,32.55-69.22,25.07-12.16,50.17-24.31,75.24-36.47-12.61,24.84-25.22,49.71-37.83,74.56Z"/>
+    </svg>
+  );
+}

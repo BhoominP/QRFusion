@@ -1,0 +1,52 @@
+﻿$kind: http-request
+name: Generate QR Code
+method: POST
+url: 'http://localhost:8080/api/v1/qr/generate'
+order: 1000
+body:
+  type: formdata
+  content:
+    - key: request
+      type: text
+      value: '{"content":"https://example.com","size":300,"style":"SQUARE","colorMode":"SOLID","finderStyle":"CLASSIC","foregroundColor":"#000000","backgroundColor":"#FFFFFF"}'
+      contentType: application/json
+      description: JSON payload for QR generation
+    - key: logo
+      type: file
+      src: ''
+      description: Optional logo image to embed in the QR code
+      disabled: true
+tests:
+  - name: Status is 200
+    script: |-
+      pm.test("Status is 200", function () {
+          pm.response.to.have.status(200);
+      });
+  - name: Response is a PNG image
+    script: |-
+      pm.test("Response is a PNG image", function () {
+          pm.expect(pm.response.headers.get("Content-Type")).to.include("image/png");
+      });
+  - name: Response body is not empty
+    script: |-
+      pm.test("Response body is not empty", function () {
+          pm.expect(pm.response.responseSize).to.be.above(0);
+      });
+  - name: PNG signature is valid
+    script: |-
+      pm.test("PNG signature is valid", function () {
+          const bytes = new Uint8Array(pm.response.stream);
+          // PNG files always start with the 8-byte magic number: 137 80 78 71 13 10 26 10
+          const pngMagic = [137, 80, 78, 71, 13, 10, 26, 10];
+          const isValidPng = pngMagic.every((byte, i) => bytes[i] === byte);
+          pm.expect(isValidPng, "Response body should start with PNG magic bytes").to.be.true;
+      });
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      var template = `<pre style="white-space: pre-wrap; word-wrap: break-word;">{{body}}</pre>`;
+      
+      pm.visualizer.set(template, {
+          body: pm.response.text()
+      });
