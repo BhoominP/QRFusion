@@ -44,7 +44,7 @@ public class SavedQrCodeController {
         List<SavedQrCode> codes;
 
         if (Boolean.TRUE.equals(favorite)) {
-            codes = savedQrCodeRepository.findByUserIdAndIsFavoriteOrderByCreatedAtDesc(currentUser.getId(), true);
+            codes = savedQrCodeRepository.findFavoritesByUserId(currentUser.getId());
         } else if (folderId != null) {
             codes = savedQrCodeRepository.findByUserIdAndFolderIdOrderByCreatedAtDesc(currentUser.getId(), folderId);
         } else {

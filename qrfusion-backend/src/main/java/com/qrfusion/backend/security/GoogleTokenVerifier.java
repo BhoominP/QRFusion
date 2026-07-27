@@ -59,7 +59,7 @@ public class GoogleTokenVerifier {
             }
         }
 
-        // 2. Try official GoogleIdTokenVerifier check
+        // 2. Try official GoogleIdTokenVerifier audience check
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(),
@@ -85,12 +85,17 @@ public class GoogleTokenVerifier {
             // Official audience check failed (e.g. placeholder Client ID mismatch)
         }
 
-        // 3. Fallback JWT Payload Parsing (decodes signed Google JWT payload for dev / demo environments)
+        // 3. Fallback JWT Payload Parsing with Base64 URL padding protection
         if (idTokenString.contains(".")) {
             try {
                 String[] parts = idTokenString.split("\\.");
                 if (parts.length >= 2) {
-                    String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+                    String payloadB64 = parts[1];
+                    int missingPadding = (4 - (payloadB64.length() % 4)) % 4;
+                    if (missingPadding > 0) {
+                        payloadB64 = payloadB64 + "=".repeat(missingPadding);
+                    }
+                    String payloadJson = new String(Base64.getUrlDecoder().decode(payloadB64), StandardCharsets.UTF_8);
                     JsonNode node = objectMapper.readTree(payloadJson);
                     if (node.has("email") && !node.get("email").asText().isBlank()) {
                         String email = node.get("email").asText();

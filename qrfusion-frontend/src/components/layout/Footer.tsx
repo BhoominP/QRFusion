@@ -88,8 +88,8 @@ export function Footer() {
           <p>© {new Date().getFullYear()} QRFusion Inc. All rights reserved. Ocean & Navigation inspired design engine.</p>
           <div className="flex gap-6">
             <Link to="/contact" className="hover:underline text-primary">Contact Us</Link>
-            <a href="#privacy" className="hover:underline">Privacy Policy</a>
-            <a href="#terms" className="hover:underline">Terms of Service</a>
+            <Link to="/privacy" className="hover:underline hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:underline hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

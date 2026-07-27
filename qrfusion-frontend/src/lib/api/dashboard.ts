@@ -39,7 +39,7 @@ export async function getSavedCodes(params?: { favoriteOnly?: boolean; folderId?
     format: item.format,
     scansCount: item.scansCount || 0,
     createdAt: item.createdAt ? item.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
-    favorite: item.favorite ?? false,
+    favorite: item.favorite ?? item.isFavorite ?? false,
     folder: item.folderId ? `Folder #${item.folderId}` : 'General',
     renderOptions: item.renderOptions,
   }));
@@ -60,7 +60,11 @@ export async function saveQrCode(payload: {
     const response = await apiFetch('/api/v1/qr/saved', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        ...payload,
+        favorite: payload.isFavorite ?? false,
+        isFavorite: payload.isFavorite ?? false,
+      }),
     });
     const item = await response.json();
     window.dispatchEvent(new CustomEvent('qrfusion_activity_updated'));
@@ -72,7 +76,7 @@ export async function saveQrCode(payload: {
       format: item.format,
       scansCount: item.scansCount || 0,
       createdAt: item.createdAt ? item.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
-      favorite: item.favorite ?? false,
+      favorite: item.favorite ?? item.isFavorite ?? false,
       folder: item.folderId ? `Folder #${item.folderId}` : 'General',
       renderOptions: item.renderOptions,
     };

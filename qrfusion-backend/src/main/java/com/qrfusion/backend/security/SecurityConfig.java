@@ -51,6 +51,7 @@ public class SecurityConfig {
                         // Public Endpoints
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/qr/generate").permitAll()
+                        .requestMatchers("/api/v1/contact").permitAll()
                         .requestMatchers("/r/**").permitAll() // Public short URL redirect endpoint
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

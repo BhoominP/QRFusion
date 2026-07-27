@@ -26,7 +26,7 @@ public class SavedQrCode {
     @Column(nullable = false)
     private String format; // PNG, SVG, PDF, GIF
 
-    @Column(nullable = false)
+    @Column(name = "is_favorite", nullable = false)
     private boolean isFavorite = false;
 
     @Column

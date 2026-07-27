@@ -5,6 +5,8 @@ import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { SettingsPage } from '../pages/settings/SettingsPage';
 import { AuthPage } from '../pages/auth/AuthPage';
 import { ContactPage } from '../pages/contact/ContactPage';
+import { PrivacyPolicyPage } from '../pages/legal/PrivacyPolicyPage';
+import { TermsOfServicePage } from '../pages/legal/TermsOfServicePage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 
 export const router = createBrowserRouter([
@@ -35,6 +37,14 @@ export const router = createBrowserRouter([
   {
     path: '/contact',
     element: <ContactPage />,
+  },
+  {
+    path: '/privacy',
+    element: <PrivacyPolicyPage />,
+  },
+  {
+    path: '/terms',
+    element: <TermsOfServicePage />,
   },
   {
     path: '/auth',

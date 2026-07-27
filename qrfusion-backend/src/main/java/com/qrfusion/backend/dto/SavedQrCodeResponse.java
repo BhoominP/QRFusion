@@ -1,5 +1,6 @@
 package com.qrfusion.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qrfusion.backend.entity.SavedQrCode;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,10 @@ public class SavedQrCodeResponse {
     private String redirectUrl;
     private String renderOptions;
     private String format;
+
+    @JsonProperty("favorite")
     private boolean isFavorite;
+
     private Long folderId;
     private String shortId;
     private long scansCount;
@@ -93,7 +97,13 @@ public class SavedQrCodeResponse {
         this.format = format;
     }
 
+    @JsonProperty("favorite")
     public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    @JsonProperty("isFavorite")
+    public boolean getIsFavorite() {
         return isFavorite;
     }
 
