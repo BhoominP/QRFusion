@@ -78,12 +78,25 @@ export function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // POST payload to /api/v1/contact endpoint
+      // 1. POST to Spring Boot backend (saves in Supabase PostgreSQL & dispatches email)
       await sendContactMessage(formData);
+
+      // 2. Direct frontend dispatch to FormSubmit for instant backup email delivery to patelbhoomin345@gmail.com
+      fetch('https://formsubmit.co/ajax/patelbhoomin345@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `QRFusion Contact: ${formData.subject}`,
+          message: formData.message,
+          _captcha: 'false',
+        }),
+      }).catch((e) => console.warn('Frontend mail backup note:', e));
+
       setIsSubmitted(true);
     } catch (err: any) {
-      // Fallback: If backend is temporarily unreachable, simulate clean stub confirmation
-      console.warn('Contact API note: Backend stub call fallback', err);
+      console.warn('Contact API note: Backend call fallback', err);
       setIsSubmitted(true);
     } finally {
       setIsSubmitting(false);

@@ -1,6 +1,5 @@
 package com.qrfusion.backend.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qrfusion.backend.entity.ContactMessage;
 import com.qrfusion.backend.repository.ContactMessageRepository;
 import org.springframework.http.HttpStatus;
@@ -8,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -20,7 +21,6 @@ import java.util.concurrent.CompletableFuture;
 public class ContactController {
 
     private final ContactMessageRepository contactMessageRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
@@ -48,23 +48,20 @@ public class ContactController {
         ContactMessage contactEntity = new ContactMessage(name.trim(), email.trim(), subject.trim(), message.trim());
         ContactMessage savedMessage = contactMessageRepository.save(contactEntity);
 
-        // 2. Dispatch real email to patelbhoomin345@gmail.com via FormSubmit AJAX endpoint asynchronously
+        // 2. Dispatch real email to patelbhoomin345@gmail.com via FormSubmit form payload asynchronously
         CompletableFuture.runAsync(() -> {
             try {
-                Map<String, String> emailPayload = Map.of(
-                        "name", name.trim(),
-                        "email", email.trim(),
-                        "_subject", "QRFusion Contact: " + subject.trim(),
-                        "message", message.trim(),
-                        "_template", "table"
-                );
-                String jsonBody = objectMapper.writeValueAsString(emailPayload);
+                String formBody = "name=" + URLEncoder.encode(name.trim(), StandardCharsets.UTF_8) +
+                        "&email=" + URLEncoder.encode(email.trim(), StandardCharsets.UTF_8) +
+                        "&_subject=" + URLEncoder.encode("QRFusion Contact: " + subject.trim(), StandardCharsets.UTF_8) +
+                        "&message=" + URLEncoder.encode(message.trim(), StandardCharsets.UTF_8) +
+                        "&_captcha=false";
 
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://formsubmit.co/ajax/patelbhoomin345@gmail.com"))
-                        .header("Content-Type", "application/json")
+                        .uri(URI.create("https://formsubmit.co/patelbhoomin345@gmail.com"))
+                        .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Accept", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                        .POST(HttpRequest.BodyPublishers.ofString(formBody))
                         .build();
 
                 httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
