@@ -110,7 +110,7 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1420] text-[#F1F5F9] flex flex-col selection:bg-primary/30">
+    <div className="min-h-screen bg-bg text-text flex flex-col selection:bg-primary/30 transition-colors">
       {/* Header Taskbar */}
       <Navbar />
 
@@ -119,16 +119,16 @@ export function ContactPage() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#4A9AFA]/40 bg-[#4A9AFA]/10 text-xs font-bold uppercase tracking-widest text-[#4A9AFA]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-primary/30 bg-primary/10 text-xs font-bold uppercase tracking-widest text-primary">
             <MessageSquare className="h-3.5 w-3.5" />
             <span>GET IN TOUCH</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-[#F1F5F9] tracking-tight">
-            Let's Build Something <span className="text-[#4A9AFA]">Custom</span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-text tracking-tight">
+            Let's Build Something <span className="text-primary">Custom</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-[#64748B] leading-relaxed">
+          <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
             Have a question, feedback on rendering pipelines, or a collaboration proposal? Drop a message below and Bhoomin will get back to you.
           </p>
         </div>
@@ -137,16 +137,16 @@ export function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-6xl mx-auto">
           
           {/* Left Column — Contact Form (60% Desktop) */}
-          <div className="lg:col-span-7 border border-white/10 rounded-2xl bg-[#101D2E] p-6 sm:p-8 shadow-xl">
+          <div className="lg:col-span-7 border border-border rounded-2xl bg-surface p-6 sm:p-8 shadow-xl">
             {isSubmitted ? (
               <div className="py-12 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-[#F1F5F9]">Message Sent Successfully!</h3>
-                  <p className="text-sm text-[#64748B] max-w-md mx-auto leading-relaxed">
+                  <h3 className="text-2xl font-bold text-text">Message Sent Successfully!</h3>
+                  <p className="text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
                     Thank you for reaching out! Your message has been received by Bhoomin. You will receive a response shortly.
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export function ContactPage() {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="rounded-xl border-white/10 hover:border-[#4A9AFA]/50 text-sm font-semibold text-[#F1F5F9]"
+                  className="rounded-xl border-border hover:border-primary/50 text-sm font-semibold text-text"
                 >
                   Send Another Message
                 </Button>
@@ -162,20 +162,20 @@ export function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 <div className="space-y-1">
-                  <h2 className="text-xl font-bold text-[#F1F5F9]">Send a Message</h2>
-                  <p className="text-xs text-[#64748B]">Fill in your details and we'll reply via email.</p>
+                  <h2 className="text-xl font-bold text-text">Send a Message</h2>
+                  <p className="text-xs text-text-secondary">Fill in your details and we'll reply via email.</p>
                 </div>
 
                 {apiError && (
-                  <div className="p-3.5 rounded-xl border border-rose-500/30 bg-rose-500/10 text-[#F87171] text-xs">
+                  <div className="p-3.5 rounded-xl border border-danger/30 bg-danger/10 text-danger text-xs font-medium">
                     {apiError}
                   </div>
                 )}
 
                 {/* Name Field */}
                 <div>
-                  <Label htmlFor="contact-name" className="text-[#64748B]">
-                    Full Name <span className="text-[#F87171]">*</span>
+                  <Label htmlFor="contact-name" className="text-text-secondary font-medium">
+                    Full Name <span className="text-danger">*</span>
                   </Label>
                   <Input
                     id="contact-name"
@@ -185,19 +185,19 @@ export function ContactPage() {
                       setFormData({ ...formData, name: e.target.value });
                       if (errors.name) setErrors({ ...errors, name: undefined });
                     }}
-                    className={`bg-[#0A1420] border-white/10 text-[#F1F5F9] placeholder:text-[#64748B]/60 focus-visible:border-[#4A9AFA] focus-visible:ring-[#4A9AFA]/50 rounded-xl ${
-                      errors.name ? 'border-[#F87171] focus-visible:ring-[#F87171]/50' : ''
+                    className={`bg-bg border-border text-text placeholder:text-text-secondary/50 focus-visible:border-primary focus-visible:ring-primary/40 rounded-xl ${
+                      errors.name ? 'border-danger focus-visible:ring-danger/40' : ''
                     }`}
                   />
                   {errors.name && (
-                    <p className="mt-1.5 text-xs font-medium text-[#F87171]">{errors.name}</p>
+                    <p className="mt-1.5 text-xs font-medium text-danger">{errors.name}</p>
                   )}
                 </div>
 
                 {/* Email Field */}
                 <div>
-                  <Label htmlFor="contact-email" className="text-[#64748B]">
-                    Email Address <span className="text-[#F87171]">*</span>
+                  <Label htmlFor="contact-email" className="text-text-secondary font-medium">
+                    Email Address <span className="text-danger">*</span>
                   </Label>
                   <Input
                     id="contact-email"
@@ -208,19 +208,19 @@ export function ContactPage() {
                       setFormData({ ...formData, email: e.target.value });
                       if (errors.email) setErrors({ ...errors, email: undefined });
                     }}
-                    className={`bg-[#0A1420] border-white/10 text-[#F1F5F9] placeholder:text-[#64748B]/60 focus-visible:border-[#4A9AFA] focus-visible:ring-[#4A9AFA]/50 rounded-xl ${
-                      errors.email ? 'border-[#F87171] focus-visible:ring-[#F87171]/50' : ''
+                    className={`bg-bg border-border text-text placeholder:text-text-secondary/50 focus-visible:border-primary focus-visible:ring-primary/40 rounded-xl ${
+                      errors.email ? 'border-danger focus-visible:ring-danger/40' : ''
                     }`}
                   />
                   {errors.email && (
-                    <p className="mt-1.5 text-xs font-medium text-[#F87171]">{errors.email}</p>
+                    <p className="mt-1.5 text-xs font-medium text-danger">{errors.email}</p>
                   )}
                 </div>
 
                 {/* Subject Field */}
                 <div>
-                  <Label htmlFor="contact-subject" className="text-[#64748B]">
-                    Subject <span className="text-[#F87171]">*</span>
+                  <Label htmlFor="contact-subject" className="text-text-secondary font-medium">
+                    Subject <span className="text-danger">*</span>
                   </Label>
                   <Input
                     id="contact-subject"
@@ -230,19 +230,19 @@ export function ContactPage() {
                       setFormData({ ...formData, subject: e.target.value });
                       if (errors.subject) setErrors({ ...errors, subject: undefined });
                     }}
-                    className={`bg-[#0A1420] border-white/10 text-[#F1F5F9] placeholder:text-[#64748B]/60 focus-visible:border-[#4A9AFA] focus-visible:ring-[#4A9AFA]/50 rounded-xl ${
-                      errors.subject ? 'border-[#F87171] focus-visible:ring-[#F87171]/50' : ''
+                    className={`bg-bg border-border text-text placeholder:text-text-secondary/50 focus-visible:border-primary focus-visible:ring-primary/40 rounded-xl ${
+                      errors.subject ? 'border-danger focus-visible:ring-danger/40' : ''
                     }`}
                   />
                   {errors.subject && (
-                    <p className="mt-1.5 text-xs font-medium text-[#F87171]">{errors.subject}</p>
+                    <p className="mt-1.5 text-xs font-medium text-danger">{errors.subject}</p>
                   )}
                 </div>
 
                 {/* Message Textarea */}
                 <div>
-                  <Label htmlFor="contact-message" className="text-[#64748B]">
-                    Message <span className="text-[#F87171]">*</span>
+                  <Label htmlFor="contact-message" className="text-text-secondary font-medium">
+                    Message <span className="text-danger">*</span>
                   </Label>
                   <textarea
                     id="contact-message"
@@ -253,12 +253,12 @@ export function ContactPage() {
                       setFormData({ ...formData, message: e.target.value });
                       if (errors.message) setErrors({ ...errors, message: undefined });
                     }}
-                    className={`w-full rounded-xl border border-white/10 bg-[#0A1420] p-3 text-sm text-[#F1F5F9] placeholder:text-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#4A9AFA]/50 focus:border-[#4A9AFA] transition-all resize-none shadow-xs ${
-                      errors.message ? 'border-[#F87171] focus:ring-[#F87171]/50' : ''
+                    className={`w-full rounded-xl border border-border bg-bg p-3 text-sm text-text placeholder:text-text-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-none shadow-xs ${
+                      errors.message ? 'border-danger focus:ring-danger/40' : ''
                     }`}
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs font-medium text-[#F87171]">{errors.message}</p>
+                    <p className="mt-1 text-xs font-medium text-danger">{errors.message}</p>
                   )}
                 </div>
 
@@ -267,7 +267,7 @@ export function ContactPage() {
                   type="submit"
                   size="lg"
                   isLoading={isSubmitting}
-                  className="w-full bg-[#4A9AFA] hover:bg-[#3b85dc] active:bg-[#3274c4] text-white font-semibold rounded-xl shadow-md shadow-[#4A9AFA]/20 gap-2 mt-2"
+                  className="w-full bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-semibold rounded-xl shadow-md shadow-primary/20 gap-2 mt-2"
                 >
                   <Send className="h-4 w-4" />
                   <span>Send Message</span>
@@ -277,16 +277,16 @@ export function ContactPage() {
           </div>
 
           {/* Right Column — Contact Info (40% Desktop) */}
-          <div className="lg:col-span-5 border border-white/10 rounded-2xl bg-[#101D2E] p-6 sm:p-8 shadow-xl space-y-6">
+          <div className="lg:col-span-5 border border-border rounded-2xl bg-surface p-6 sm:p-8 shadow-xl space-y-6">
             <div className="space-y-2">
-              <h2 className="text-xl font-bold text-[#F1F5F9]">About QRFusion</h2>
-              <p className="text-sm text-[#64748B] leading-relaxed">
+              <h2 className="text-xl font-bold text-text">About QRFusion</h2>
+              <p className="text-sm text-text-secondary leading-relaxed">
                 QRFusion is built and maintained by Bhoomin, a final-year CSE student — reach out for bugs, feature requests, or freelance/collab inquiries.
               </p>
             </div>
 
-            <div className="border-t border-white/10 pt-6 space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B]">
+            <div className="border-t border-border pt-6 space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-text-secondary">
                 Direct Contacts & Socials
               </h3>
 
@@ -294,25 +294,25 @@ export function ContactPage() {
                 <li>
                   <a
                     href="mailto:patelbhoomin345@gmail.com"
-                    className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
+                    className="flex items-center gap-3 text-text hover:text-primary transition-colors group"
                   >
-                    <div className="w-9 h-9 rounded-xl border border-white/10 bg-[#0A1420] flex items-center justify-center text-[#4A9AFA] group-hover:border-[#4A9AFA]/40 transition-colors">
+                    <div className="w-9 h-9 rounded-xl border border-border bg-bg flex items-center justify-center text-primary group-hover:border-primary/40 transition-colors">
                       <Mail className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-[#64748B]">Email Support</p>
+                      <p className="text-xs text-text-secondary">Email Support</p>
                       <p className="font-medium text-xs sm:text-sm truncate">patelbhoomin345@gmail.com</p>
                     </div>
                   </a>
                 </li>
 
                 <li>
-                  <div className="flex items-center gap-3 text-[#F1F5F9]">
-                    <div className="w-9 h-9 rounded-xl border border-white/10 bg-[#0A1420] flex items-center justify-center text-[#4A9AFA]">
+                  <div className="flex items-center gap-3 text-text">
+                    <div className="w-9 h-9 rounded-xl border border-border bg-bg flex items-center justify-center text-primary">
                       <MapPin className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-[#64748B]">Location</p>
+                      <p className="text-xs text-text-secondary">Location</p>
                       <p className="font-medium text-xs sm:text-sm">Running on Coffee &amp; Java ☕</p>
                     </div>
                   </div>
@@ -323,13 +323,13 @@ export function ContactPage() {
                     href="https://github.com/BhoominP/QRFusion"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
+                    className="flex items-center gap-3 text-text hover:text-primary transition-colors group"
                   >
-                    <div className="w-9 h-9 rounded-xl border border-white/10 bg-[#0A1420] flex items-center justify-center text-[#4A9AFA] group-hover:border-[#4A9AFA]/40 transition-colors">
+                    <div className="w-9 h-9 rounded-xl border border-border bg-bg flex items-center justify-center text-primary group-hover:border-primary/40 transition-colors">
                       <GithubIcon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-[#64748B]">GitHub Repository</p>
+                      <p className="text-xs text-text-secondary">GitHub Repository</p>
                       <p className="font-medium text-xs sm:text-sm">github.com/BhoominP/QRFusion</p>
                     </div>
                   </a>
@@ -340,13 +340,13 @@ export function ContactPage() {
                     href="https://www.linkedin.com/in/bhoomin-patel/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-[#F1F5F9] hover:text-[#4A9AFA] transition-colors group"
+                    className="flex items-center gap-3 text-text hover:text-primary transition-colors group"
                   >
-                    <div className="w-9 h-9 rounded-xl border border-white/10 bg-[#0A1420] flex items-center justify-center text-[#4A9AFA] group-hover:border-[#4A9AFA]/40 transition-colors">
+                    <div className="w-9 h-9 rounded-xl border border-border bg-bg flex items-center justify-center text-primary group-hover:border-primary/40 transition-colors">
                       <LinkedinIcon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-[#64748B]">LinkedIn</p>
+                      <p className="text-xs text-text-secondary">LinkedIn</p>
                       <p className="font-medium text-xs sm:text-sm">linkedin.com/in/bhoomin-patel</p>
                     </div>
                   </a>
@@ -354,9 +354,9 @@ export function ContactPage() {
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-white/10">
-              <div className="p-3.5 rounded-xl border border-[#4A9AFA]/20 bg-[#4A9AFA]/5 text-xs text-[#64748B] flex items-center gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <div className="pt-4 border-t border-border">
+              <div className="p-3.5 rounded-xl border border-primary/20 bg-primary/5 text-xs text-text-secondary flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                 <span>Typical response time: within 24 hours</span>
               </div>
             </div>
