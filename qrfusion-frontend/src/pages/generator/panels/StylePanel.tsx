@@ -133,6 +133,42 @@ export function StylePanel({ config, updateConfig }: StylePanelProps) {
           />
         </div>
       )}
+
+      {/* Neon Glow Style Toggle */}
+      <div className="p-4 rounded-xl border border-primary/40 bg-primary/5 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="space-y-0.5">
+            <Label className="text-text font-bold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+              Neon Glow Bloom
+            </Label>
+            <p className="text-[11px] text-text-secondary">
+              Soft halo bloom with dark background compositing
+            </p>
+          </div>
+          <input
+            type="checkbox"
+            checked={config.neonGlowEnabled}
+            onChange={(e) => updateConfig({ neonGlowEnabled: e.target.checked })}
+            className="w-5 h-5 rounded border-border text-primary focus:ring-primary cursor-pointer accent-primary shrink-0"
+          />
+        </div>
+
+        {config.neonGlowEnabled && (
+          <div className="pt-3 border-t border-border/60 flex items-center justify-between">
+            <Label className="text-xs text-text-secondary font-medium">Dark Canvas Background</Label>
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={config.neonBackgroundColor || '#0A0A14'}
+                onChange={(e) => updateConfig({ neonBackgroundColor: e.target.value })}
+                className="w-8 h-8 rounded-lg border border-border cursor-pointer"
+              />
+              <span className="text-xs font-mono text-text">{config.neonBackgroundColor || '#0A0A14'}</span>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -53,7 +53,21 @@ export function QrPreviewCanvas({
       </div>
 
       {/* Preview Display Container */}
-      <div className="relative aspect-square w-full rounded-2xl bg-white p-6 shadow-inner flex items-center justify-center border border-slate-200 overflow-hidden min-h-[300px]">
+      <div
+        className="relative aspect-square w-full rounded-2xl p-6 shadow-inner flex items-center justify-center border border-slate-200 overflow-hidden min-h-[300px] transition-colors duration-300"
+        style={{
+          backgroundColor: config.neonGlowEnabled
+            ? (config.neonBackgroundColor || '#0A0A14')
+            : 'white',
+        }}
+      >
+        {/* Neon Glow Active Badge */}
+        {config.neonGlowEnabled && (
+          <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-primary/20 border border-primary/40 text-[10px] font-bold text-primary flex items-center gap-1.5 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span>NEON GLOW ACTIVE</span>
+          </div>
+        )}
         {/* Loading Overlay with Compass Indicator over existing preview */}
         {isGenerating && (
           <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-xs flex flex-col items-center justify-center gap-3 transition-opacity">

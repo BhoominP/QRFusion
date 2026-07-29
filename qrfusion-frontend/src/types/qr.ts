@@ -86,6 +86,8 @@ export interface QrConfig {
   hiddenModuleRatio: number;
   decorativeDotsEnabled: boolean;
   accentColor: string;
+  neonGlowEnabled: boolean;
+  neonBackgroundColor: string;
 }
 
 export const DEFAULT_QR_CONFIG: QrConfig = {
@@ -131,6 +133,8 @@ export const DEFAULT_QR_CONFIG: QrConfig = {
   hiddenModuleRatio: 0.12,
   decorativeDotsEnabled: false,
   accentColor: '#F4B942',
+  neonGlowEnabled: false,
+  neonBackgroundColor: '#0A0A14',
 };
 
 export interface QrTemplate {

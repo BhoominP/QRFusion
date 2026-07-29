@@ -343,6 +343,19 @@ public class QrRenderer {
     ) {
 
         int quietZone = options.getQuietZone();
+        int eyeSize = 7 * moduleSize;
+
+        if (options.isNeonGlowEnabled()) {
+            Color neonBg = options.getNeonBackgroundColor() != null
+                    ? options.getNeonBackgroundColor()
+                    : new Color(0x0A, 0x0A, 0x14);
+            g.setColor(neonBg);
+
+            // Pre-fill finder zones with solid dark background to prevent blur bleeding into middle ring
+            g.fillRect(quietZone * moduleSize, quietZone * moduleSize, eyeSize, eyeSize);
+            g.fillRect((matrixWidth - 7 + quietZone) * moduleSize, quietZone * moduleSize, eyeSize, eyeSize);
+            g.fillRect(quietZone * moduleSize, (matrixHeight - 7 + quietZone) * moduleSize, eyeSize, eyeSize);
+        }
 
         finderRenderer.drawFinder(g, quietZone * moduleSize, quietZone * moduleSize, moduleSize, options);
         finderRenderer.drawFinder(g, (matrixWidth - 7 + quietZone) * moduleSize, quietZone * moduleSize, moduleSize, options);
