@@ -72,14 +72,30 @@ public class SvgRenderer {
                 .append("viewBox=\"0 0 ").append(imageWidth).append(" ").append(imageHeight)
                 .append("\">\n");
 
-        if (gradient) {
-            svg.append("<defs>\n")
-                    .append(buildGradientDef(options, imageWidth, imageHeight))
-                    .append("</defs>\n");
+        if (gradient || options.isNeonGlowEnabled()) {
+            svg.append("<defs>\n");
+            if (gradient) {
+                svg.append(buildGradientDef(options, imageWidth, imageHeight));
+            }
+            if (options.isNeonGlowEnabled()) {
+                svg.append("  <filter id=\"neonGlowFilter\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\">\n")
+                        .append("    <feGaussianBlur stdDeviation=\"4\" result=\"blur\"/>\n")
+                        .append("    <feMerge>\n")
+                        .append("      <feMergeNode in=\"blur\"/>\n")
+                        .append("      <feMergeNode in=\"blur\"/>\n")
+                        .append("      <feMergeNode in=\"SourceGraphic\"/>\n")
+                        .append("    </feMerge>\n")
+                        .append("  </filter>\n");
+            }
+            svg.append("</defs>\n");
         }
 
         // ---- Background ----
-        if (options.getBackgroundColor() != null && options.getBackgroundColor().getAlpha() > 0) {
+        if (options.isNeonGlowEnabled()) {
+            Color neonBg = options.getNeonBackgroundColor() != null ? options.getNeonBackgroundColor() : new Color(0x0A, 0x0A, 0x14);
+            svg.append("<rect width=\"100%\" height=\"100%\" fill=\"")
+                    .append(ColorUtils.toHex(neonBg)).append("\"/>\n");
+        } else if (options.getBackgroundColor() != null && options.getBackgroundColor().getAlpha() > 0) {
             svg.append("<rect width=\"100%\" height=\"100%\" fill=\"")
                     .append(ColorUtils.toHex(options.getBackgroundColor())).append("\"/>\n");
         }
@@ -111,7 +127,11 @@ public class SvgRenderer {
         appendFinder(svg, quietZone * moduleSize, (matrixHeight - 7 + quietZone) * moduleSize, moduleSize, options, fillRef);
 
         // ---- Data modules (finder zone skipped, same 8x8 rule as QrRenderer) ----
-        svg.append("<g fill=\"").append(fillRef).append("\">\n");
+        if (options.isNeonGlowEnabled()) {
+            svg.append("<g fill=\"").append(fillRef).append("\" filter=\"url(#neonGlowFilter)\">\n");
+        } else {
+            svg.append("<g fill=\"").append(fillRef).append("\">\n");
+        }
 
         for (int y = 0; y < matrixHeight; y++) {
             for (int x = 0; x < matrixWidth; x++) {

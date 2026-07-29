@@ -109,6 +109,15 @@ public class RenderOptions {
     private Color accentColor = Color.BLACK;
 
     /*
+     * -----------------------------------------
+     * Feature 8 - Neon Glow Style
+     * -----------------------------------------
+     */
+
+    private boolean neonGlowEnabled = false;
+    private Color neonBackgroundColor = new Color(0x0A, 0x0A, 0x14); // near-black, slightly blue
+
+    /*
      * Used as deterministic random seed
      */
 
@@ -339,6 +348,26 @@ public class RenderOptions {
 
     public void setAccentColor(Color accentColor) {
         this.accentColor = accentColor;
+    }
+
+    // =====================================================
+    // Neon Glow
+    // =====================================================
+
+    public boolean isNeonGlowEnabled() {
+        return neonGlowEnabled;
+    }
+
+    public void setNeonGlowEnabled(boolean neonGlowEnabled) {
+        this.neonGlowEnabled = neonGlowEnabled;
+    }
+
+    public Color getNeonBackgroundColor() {
+        return neonBackgroundColor;
+    }
+
+    public void setNeonBackgroundColor(Color neonBackgroundColor) {
+        this.neonBackgroundColor = neonBackgroundColor;
     }
 
     // =====================================================

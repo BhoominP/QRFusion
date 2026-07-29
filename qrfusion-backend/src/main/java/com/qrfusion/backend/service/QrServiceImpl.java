@@ -133,6 +133,13 @@ public class QrServiceImpl implements QrService {
                 Color.decode(request.getEndColor())
         );
 
+        options.setNeonGlowEnabled(request.isNeonGlowEnabled());
+        if (request.getNeonBackgroundColor() != null && !request.getNeonBackgroundColor().isBlank()) {
+            try {
+                options.setNeonBackgroundColor(Color.decode(request.getNeonBackgroundColor()));
+            } catch (Exception ignored) {}
+        }
+
         /*
          * -----------------------------
          * Pattern

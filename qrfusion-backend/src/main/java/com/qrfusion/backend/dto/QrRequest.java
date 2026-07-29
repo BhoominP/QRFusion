@@ -463,6 +463,12 @@ public class QrRequest {
     @Pattern(regexp = "^#([A-Fa-f0-9]{6})$", message = "accentColor must be a hex color like #000000")
     private String accentColor = "#000000";
 
+    // Neon Glow
+    private boolean neonGlowEnabled = false;
+
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6})$", message = "neonBackgroundColor must be a hex color like #0A0A14")
+    private String neonBackgroundColor = "#0A0A14";
+
     public boolean isBackgroundArtEnabled() { return backgroundArtEnabled; }
     public void setBackgroundArtEnabled(boolean backgroundArtEnabled) { this.backgroundArtEnabled = backgroundArtEnabled; }
 
@@ -480,4 +486,10 @@ public class QrRequest {
 
     public String getAccentColor() { return accentColor; }
     public void setAccentColor(String accentColor) { this.accentColor = accentColor; }
+
+    public boolean isNeonGlowEnabled() { return neonGlowEnabled; }
+    public void setNeonGlowEnabled(boolean neonGlowEnabled) { this.neonGlowEnabled = neonGlowEnabled; }
+
+    public String getNeonBackgroundColor() { return neonBackgroundColor; }
+    public void setNeonBackgroundColor(String neonBackgroundColor) { this.neonBackgroundColor = neonBackgroundColor; }
 }

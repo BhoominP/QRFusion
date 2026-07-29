@@ -2,9 +2,11 @@ package com.qrfusion.backend.renderer;
 
 import com.google.zxing.common.BitMatrix;
 import com.qrfusion.backend.renderer.background.BackgroundArtSampler;
+import com.qrfusion.backend.renderer.background.BlendComposite;
 import com.qrfusion.backend.renderer.color.ColorEngine;
 import com.qrfusion.backend.renderer.color.ColorPainter;
 import com.qrfusion.backend.renderer.decorative.DecorativeDotsRenderer;
+import com.qrfusion.backend.renderer.effect.ImageEffects;
 import com.qrfusion.backend.renderer.fade.ModuleFadeSelector;
 import com.qrfusion.backend.renderer.finder.FinderEngine;
 import com.qrfusion.backend.renderer.finder.FinderRenderer;
@@ -87,10 +89,14 @@ public class QrRenderer {
         BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
 
+        boolean neon = options.isNeonGlowEnabled();
+        BufferedImage sharpLayer = neon ? new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB) : image;
+        Graphics2D targetG = neon ? sharpLayer.createGraphics() : g;
+
         try {
 
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            targetG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            targetG.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
             BufferedImage bg = null;
             if (options.getBackgroundOptions() != null && options.getBackgroundOptions().getImage() != null) {
@@ -99,9 +105,11 @@ public class QrRenderer {
                 bg = options.getBackgroundArt();
             }
 
-            // Always fill background canvas with solid background color (pure white or user bg)
-            g.setColor(options.getBackgroundColor() != null ? options.getBackgroundColor() : Color.WHITE);
-            g.fillRect(0, 0, imageWidth, imageHeight);
+            if (!neon) {
+                // Fill background canvas with solid background color when neon is disabled
+                targetG.setColor(options.getBackgroundColor() != null ? options.getBackgroundColor() : Color.WHITE);
+                targetG.fillRect(0, 0, imageWidth, imageHeight);
+            }
 
             BufferedImage scaledBg = null;
             double opacity = 0.50;
@@ -142,7 +150,7 @@ public class QrRenderer {
                 patternEngine
                         .getRenderer(options.getPatternOptions().getStyle())
                         .draw(
-                                g,
+                                targetG,
                                 bitMatrix,
                                 options.getPatternOptions(),
                                 moduleSize,
@@ -151,16 +159,16 @@ public class QrRenderer {
             }
 
             ColorPainter painter = colorEngine.getPainter(options.getColorMode());
-            painter.prepare(g, options, imageWidth, imageHeight);
+            painter.prepare(targetG, options, imageWidth, imageHeight);
 
             if (scaledBg == null) {
-                drawFinderEyes(g, finderRenderer, matrixWidth, matrixHeight, moduleSize, options);
+                drawFinderEyes(targetG, finderRenderer, matrixWidth, matrixHeight, moduleSize, options);
             }
 
             if (options.getStyle() == RenderStyle.GLASS) {
 
                 glassEngine.prepare(
-                        g,
+                        targetG,
                         bg,
                         imageWidth,
                         imageHeight
@@ -178,7 +186,7 @@ public class QrRenderer {
                     ? moduleFadeSelector.select(matrixWidth, matrixHeight, options.getHiddenModuleRatio(), options.getSeed())
                     : Set.of();
 
-            Composite normalComposite = g.getComposite();
+            Composite normalComposite = targetG.getComposite();
 
             for (int y = 0; y < matrixHeight; y++) {
                 for (int x = 0; x < matrixWidth; x++) {
@@ -195,25 +203,25 @@ public class QrRenderer {
                         if (isFinder) {
                             // Finder Pattern Zone: Draw clean high-contrast black/white finder eye
                             if (bitMatrix.get(x, y)) {
-                                g.setColor(new Color(15, 23, 42)); // Deep Slate Black
-                                g.fillRect(drawX, drawY, moduleSize, moduleSize);
+                                targetG.setColor(new Color(15, 23, 42)); // Deep Slate Black
+                                targetG.fillRect(drawX, drawY, moduleSize, moduleSize);
                             } else {
-                                g.setColor(Color.WHITE);
-                                g.fillRect(drawX, drawY, moduleSize, moduleSize);
+                                targetG.setColor(Color.WHITE);
+                                targetG.fillRect(drawX, drawY, moduleSize, moduleSize);
                             }
                         } else if (bitMatrix.get(x, y)) {
                             // DARK MODULE: Crop/draw image tile & apply contrast darkening tint!
                             BufferedImage tile = scaledBg.getSubimage(bgX, bgY, moduleSize, moduleSize);
-                            g.drawImage(tile, drawX, drawY, null);
+                            targetG.drawImage(tile, drawX, drawY, null);
 
                             if (darkTintAlpha > 0) {
-                                g.setColor(new Color(0, 0, 0, darkTintAlpha));
-                                g.fillRect(drawX, drawY, moduleSize, moduleSize);
+                                targetG.setColor(new Color(0, 0, 0, darkTintAlpha));
+                                targetG.fillRect(drawX, drawY, moduleSize, moduleSize);
                             }
                         } else {
                             // LIGHT MODULE: Draw solid white square!
-                            g.setColor(Color.WHITE);
-                            g.fillRect(drawX, drawY, moduleSize, moduleSize);
+                            targetG.setColor(Color.WHITE);
+                            targetG.fillRect(drawX, drawY, moduleSize, moduleSize);
                         }
                     } else {
                         boolean isFinderZone = isFinderPatternZone(x, y, matrixWidth, matrixHeight);
@@ -227,18 +235,18 @@ public class QrRenderer {
                                     options.getBackgroundArtBlend(),
                                     options.getBackgroundColor()
                             );
-                            g.setColor(blended);
+                            targetG.setColor(blended);
                         }
 
                         boolean faded = moduleFadeSelector.isFaded(fadedModules, x, y);
                         if (faded) {
-                            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, FADE_ALPHA));
+                            targetG.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, FADE_ALPHA));
                         }
 
                         if (options.getStyle() == RenderStyle.GLASS) {
 
                             glassEngine.drawShadow(
-                                    g,
+                                    targetG,
                                     drawX,
                                     drawY,
                                     moduleSize
@@ -246,7 +254,7 @@ public class QrRenderer {
                         }
 
                         moduleRenderer.drawModule(
-                                g,
+                                targetG,
                                 drawX,
                                 drawY,
                                 moduleSize,
@@ -256,7 +264,7 @@ public class QrRenderer {
                         if (options.getStyle() == RenderStyle.GLASS) {
 
                             glassEngine.drawReflection(
-                                    g,
+                                    targetG,
                                     drawX,
                                     drawY,
                                     moduleSize
@@ -264,11 +272,11 @@ public class QrRenderer {
                         }
 
                         if (faded) {
-                            g.setComposite(normalComposite);
+                            targetG.setComposite(normalComposite);
                         }
 
                         if (preparedArt != null) {
-                            painter.prepare(g, options, imageWidth, imageHeight);
+                            painter.prepare(targetG, options, imageWidth, imageHeight);
                         }
                     }
                 }
@@ -276,15 +284,15 @@ public class QrRenderer {
 
             if (options.getLogoOptions() != null) {
 
-                safetyEngine.render(g, options.getLogoOptions(), imageWidth, imageHeight);
+                safetyEngine.render(targetG, options.getLogoOptions(), imageWidth, imageHeight);
 
                 LogoRenderer logoRenderer = logoEngine.getRenderer(options.getLogoOptions().getShape());
-                logoRenderer.drawLogo(g, options.getLogoOptions(), imageWidth, imageHeight);
+                logoRenderer.drawLogo(targetG, options.getLogoOptions(), imageWidth, imageHeight);
             }
 
             if (options.isDecorativeDotsEnabled()) {
                 decorativeDotsRenderer.render(
-                        g,
+                        targetG,
                         matrixWidth,
                         matrixHeight,
                         moduleSize,
@@ -292,6 +300,30 @@ public class QrRenderer {
                         options.getAccentColor(),
                         options.getSeed()
                 );
+            }
+
+            if (neon) {
+                targetG.dispose();
+
+                // Build the glow layer: Gaussian blur copy of the sharp layer
+                int blurRadius = Math.max(6, moduleSize * 2);
+                BufferedImage glowLayer = ImageEffects.blur(sharpLayer, blurRadius);
+
+                // Fill final background with neon background color
+                Color neonBg = options.getNeonBackgroundColor() != null
+                        ? options.getNeonBackgroundColor()
+                        : new Color(0x0A, 0x0A, 0x14);
+                g.setColor(neonBg);
+                g.fillRect(0, 0, imageWidth, imageHeight);
+
+                // Composite glow bloom layer onto dark background using Screen blend
+                Composite prevComposite = g.getComposite();
+                g.setComposite(BlendComposite.screen(0.9f));
+                g.drawImage(glowLayer, 0, 0, null);
+                g.setComposite(prevComposite);
+
+                // Paint the crisp original sharp layer on top to guarantee scannability
+                g.drawImage(sharpLayer, 0, 0, null);
             }
 
         } finally {
