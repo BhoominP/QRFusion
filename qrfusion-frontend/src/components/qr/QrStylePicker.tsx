@@ -80,6 +80,51 @@ export function QrStylePicker({ config, updateConfig }: QrStylePickerProps) {
           onValueChange={(val) => updateConfig({ patternSpacing: val })}
         />
       </div>
+
+      {/* Neon Glow Style Toggle */}
+      <div className="p-4 rounded-xl border border-primary/40 bg-primary/10 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="space-y-0.5">
+            <Label className="text-text font-bold flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+              Neon Glow Style
+            </Label>
+            <p className="text-[11px] text-text-secondary">
+              Soft halo bloom with dark background compositing
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={config.neonGlowEnabled || false}
+            onClick={() => updateConfig({ neonGlowEnabled: !config.neonGlowEnabled })}
+            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+              config.neonGlowEnabled ? 'bg-primary' : 'bg-slate-700'
+            }`}
+          >
+            <span
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                config.neonGlowEnabled ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </div>
+
+        {config.neonGlowEnabled && (
+          <div className="pt-3 border-t border-border/60 flex items-center justify-between">
+            <Label className="text-xs text-text-secondary font-medium">Dark Canvas Background</Label>
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={config.neonBackgroundColor || '#0A0A14'}
+                onChange={(e) => updateConfig({ neonBackgroundColor: e.target.value })}
+                className="w-8 h-8 rounded-lg border border-border cursor-pointer"
+              />
+              <span className="text-xs font-mono text-text font-semibold">{config.neonBackgroundColor || '#0A0A14'}</span>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
